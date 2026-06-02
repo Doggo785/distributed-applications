@@ -1,0 +1,12 @@
+{
+  "name": "tasks-api",
+  "version": "1.0.0",
+  "description": "Task management API with Express and MongoDB",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "author": "Doggo",
+  "license": "ISC"
+}
