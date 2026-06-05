@@ -25,4 +25,24 @@ export const getProductById = async (id) => {
   }
 };
 
+export const getCategories = async () => {
+  try {
+    const response = await api.get('/products/categories');
+    return response.data;
+  } catch (error) {
+    console.error('Erreur lors de la récupération des catégories:', error);
+    throw error;
+  }
+};
+
+export const getProductsByCategory = async (category) => {
+  try {
+    const response = await api.get(`/products/category/${category}`);
+    return response.data;
+  } catch (error) {
+    console.error('Erreur lors de la récupération des produits par catégorie:', error);
+    throw error;
+  }
+};
+
 export default api;
