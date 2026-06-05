@@ -1,8 +1,10 @@
+import ProductList from '@/components/ProductList';
+
 export default function Home() {
   return (
-    <main>
-      <h1>Fake Store</h1>
-      <p>Bienvenue dans la Fake Store</p>
-    </main>
+    <div>
+      <h1 className="text-3xl font-bold mb-6">Catalogue de Produits</h1>
+      <ProductList />
+    </div>
   );
 }
