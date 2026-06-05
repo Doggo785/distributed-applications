@@ -1,12 +1,20 @@
+import Navbar from '@/components/Navbar';
+import './globals.css';
+
 export const metadata = {
-  title: "Fake Store",
-  description: "Application de vente en ligne",
+  title: 'Fake Store',
+  description: 'Application de vente en ligne - Fake Store',
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="fr">
-      <body>{children}</body>
+      <body>
+        <Navbar />
+        <main className="container mx-auto p-4">
+          {children}
+        </main>
+      </body>
     </html>
   );
 }
