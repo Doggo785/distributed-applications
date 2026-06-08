@@ -46,3 +46,23 @@ app.get('/products/:id', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+app.put('/products/:id', async (req, res) => {
+  try {
+    const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!product) return res.status(404).json({ message: 'Produit non trouvé' });
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.delete('/products/:id', async (req, res) => {
+  try {
+    const product = await Product.findByIdAndDelete(req.params.id);
+    if (!product) return res.status(404).json({ message: 'Produit non trouvé' });
+    res.status(200).json({ message: 'Produit supprimé avec succès' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
