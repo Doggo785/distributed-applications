@@ -24,7 +24,8 @@ app.post('/products', async (req, res) => {
     const product = await Product.create(req.body);
     res.status(201).json(product);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Erreur création produit:', error.message);
+    res.status(500).json({ message: 'Erreur lors de la création du produit', error: error.message });
   }
 });
 
@@ -33,7 +34,8 @@ app.get('/products', async (req, res) => {
     const products = await Product.find({});
     res.status(200).json(products);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Erreur récupération produits:', error.message);
+    res.status(500).json({ message: 'Erreur lors de la récupération des produits', error: error.message });
   }
 });
 
@@ -43,7 +45,8 @@ app.get('/products/:id', async (req, res) => {
     if (!product) return res.status(404).json({ message: 'Produit non trouvé' });
     res.status(200).json(product);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Erreur récupération produit:', error.message);
+    res.status(500).json({ message: 'Erreur lors de la récupération du produit', error: error.message });
   }
 });
 
@@ -53,7 +56,8 @@ app.put('/products/:id', async (req, res) => {
     if (!product) return res.status(404).json({ message: 'Produit non trouvé' });
     res.status(200).json(product);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Erreur mise à jour produit:', error.message);
+    res.status(500).json({ message: 'Erreur lors de la mise à jour du produit', error: error.message });
   }
 });
 
@@ -63,6 +67,7 @@ app.delete('/products/:id', async (req, res) => {
     if (!product) return res.status(404).json({ message: 'Produit non trouvé' });
     res.status(200).json({ message: 'Produit supprimé avec succès' });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Erreur suppression produit:', error.message);
+    res.status(500).json({ message: 'Erreur lors de la suppression du produit', error: error.message });
   }
 });
