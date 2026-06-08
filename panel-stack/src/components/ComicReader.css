@@ -1,0 +1,101 @@
+.comic-reader {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.comic-reader__content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.comic-reader__page {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  animation: pageIn 0.3s ease-out;
+}
+
+.comic-reader__click-zone {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 30%;
+  cursor: pointer;
+}
+
+.comic-reader__click-zone--left { left: 0; }
+.comic-reader__click-zone--right { right: 0; }
+
+.comic-reader__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+}
+
+.comic-reader__btn {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.comic-reader__btn:hover:not(:disabled) { background-color: var(--color-accent-dim); }
+.comic-reader__btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.comic-reader__progress {
+  flex: 1;
+  max-width: 300px;
+  height: 4px;
+  background-color: var(--color-border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.comic-reader__progress-bar {
+  height: 100%;
+  background-color: var(--color-accent);
+  transition: width 0.3s ease;
+}
+
+.comic-reader__counter {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  min-width: 60px;
+  text-align: center;
+}
+
+.comic-reader__error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 1rem;
+}
+
+.comic-reader__error button {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+@keyframes pageIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
