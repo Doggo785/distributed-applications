@@ -1,0 +1,51 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: jwt_workshop
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "3001:3001"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: jwt_workshop
+      DB_USER: admin
+      DB_PASSWORD: admin123
+      JWT_SECRET: my_super_secret_key_2024
+      PORT: 3001
+      SALT_ROUNDS: 10
+    depends_on:
+      - postgres
+    dns:
+      - 8.8.8.8
+
+  private-service:
+    build: ./private-service
+    ports:
+      - "3002:3002"
+    environment:
+      PORT: 3002
+    dns:
+      - 8.8.8.8
+
+  gateway:
+    image: nginx:1.29-alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./gateway/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - auth-service
+      - private-service
+
+volumes:
+  postgres_data:
