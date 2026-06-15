@@ -5,6 +5,11 @@ const api = axios.create({
   timeout: 5000,
 });
 
+const authApi = axios.create({
+  baseURL: '/api',
+  timeout: 5000,
+});
+
 export const getProducts = async () => {
   try {
     const response = await api.get('/products');
@@ -41,6 +46,19 @@ export const getProductsByCategory = async (category) => {
     return response.data;
   } catch (error) {
     console.error('Erreur lors de la récupération des produits par catégorie:', error);
+    throw error;
+  }
+};
+
+export const loginUser = async (email, password) => {
+  try {
+    const response = await authApi.post("/auth/login", {
+      email,
+      password,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Erreur lors de la connexion :", error);
     throw error;
   }
 };
