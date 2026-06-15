@@ -1,48 +1,51 @@
-'use client';
-
-import { createContext, useContext, useState } from 'react';
+"use client";
+import { createContext, useContext, useState } from "react";
 
 const CartContext = createContext();
 
-export function CartProvider({ children }) {
+export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
+  // Ajout au panier avec gestion de la quantité
   const addToCart = (product) => {
-    setCart(prevCart => {
-      const existingItem = prevCart.find(item => item.id === product.id);
-      if (existingItem) {
-        return prevCart.map(item => 
+    setCart((prevCart) => {
+      const existingProduct = prevCart.find((item) => item.id === product.id);
+      
+      // Si le produit existe, on incrémente sa quantité
+      if (existingProduct) {
+        return prevCart.map((item) =>
           item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
         );
-      } else {
-        return [...prevCart, { ...product, quantity: 1 }];
       }
+      // Sinon, on l'ajoute avec une quantité initiale de 1
+      return [...prevCart, { ...product, quantity: 1 }];
     });
   };
 
-  const updateQuantity = (productId, newQuantity) => {
-    if (newQuantity < 1) { removeFromCart(productId); return; }
-    setCart(prevCart => prevCart.map(item => 
-      item.id === productId ? { ...item, quantity: newQuantity } : item
-    ));
+  // Modification de la quantité (+1 ou -1)
+  const updateQuantity = (productId, delta) => {
+    setCart((prevCart) =>
+      prevCart.map((item) => {
+        if (item.id === productId) {
+          const newQuantity = item.quantity + delta;
+          // Bloque la descente en dessous de 1
+          return newQuantity > 0 ? { ...item, quantity: newQuantity } : item;
+        }
+        return item;
+      })
+    );
   };
 
+  // Suppression d'un produit
   const removeFromCart = (productId) => {
-    setCart(prevCart => prevCart.filter(item => item.id !== productId));
+    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
   };
-
-  const getCartCount = () => cart.reduce((total, item) => total + item.quantity, 0);
-  const getCartTotal = () => cart.reduce((total, item) => total + (item.price * item.quantity), 0);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, updateQuantity, removeFromCart, getCartCount, getCartTotal }}>
+    <CartContext.Provider value={{ cart, addToCart, updateQuantity, removeFromCart }}>
       {children}
     </CartContext.Provider>
   );
-}
+};
 
-export function useCart() {
-  const context = useContext(CartContext);
-  if (!context) throw new Error('useCart doit être utilisé dans un CartProvider');
-  return context;
-}
+export const useCart = () => useContext(CartContext);
